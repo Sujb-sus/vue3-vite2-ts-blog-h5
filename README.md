@@ -1,15 +1,11 @@
 ## vue3-vite2-blog-h5
 
-一款简约版本的移动端博客；主要是采用`Vue3`最新语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。
+一款简约版本的移动端博客。前端项目主要是采用`Vue3`最新语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。后端项目主要采用`Node`框架`Koa2`以及`MongoDB`数据库来设计的。
 
 #### 项目预览
 
-<img src="./public/index.jpg" width="260px"><img src="./public/label.jpg" width="260px"><img src="./public/detail.jpg" width="260px">
-<img src="./public/message.jpg" width="260px"><img src="./public/my.jpg" width="260px">
-
-需要后台接口数据的，请移至该仓库：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)。
-
-该仓库下共有三个项目，PC 管理端（admin）、PC 客户端（client）、后台服务端（server）。需要先连接本地`MongoDB`数据库，再启动管理端项目，就可以添加数据了。
+<img src="./public/index.jpg" height="500px"><img src="./public/label.jpg" height="500px">
+<img src="./public/detail.jpg" height="500px"><img src="./public/message.jpg" height="500px">
 
 #### 项目结构
 
@@ -275,6 +271,66 @@ export default router;
 import { useRouter } from "vue-router";
 const route = useRouter();
 const id = route.currentRoute.value.query["id"];
+```
+
+#### 后端服务
+
+必须得先开启后端服务接口，连接上`MongoDB`数据库，不然前端项目没法预览。这边的服务接口其实是复用了 PC 端`wall-blog`项目的接口。所以如果想要在管理后台添加数据的，需要移至该仓库：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)。
+
+该仓库下共有三个项目，PC 管理端（admin）、PC 客户端（client）、后台服务端（server）。`server`项目其实就是本项目的`server`目录，为了方便大家的预览，我 Copy 了一份过来。
+
+- client：博客的 PC 端
+- admin：博客的管理端，就是用来添加文章数据、标签数据等等
+- server：给博客提供接口服务数据
+
+##### 开启后端接口服务
+
+###### 方式一、移至上述所说的仓库地址
+
+该仓库下有详细的描述，主要流程如下：
+
+1. 查看注意事项，先安装、连接好本地的`MongoDB`数据库，开启服务
+2. 启动`admin`项目，就可以通过管理后台手动添加数据了
+
+###### 方式二、直接在本项目连接`MongoDB`数据库
+
+1. 项目启动前，需要在本地安装好`MongoDB`数据库；
+
+2. 在`server/config.js`文件配置数据库名、用户以及密码等一些必要的信息；这些信息都可以自定义，但是需要跟`步骤3`同步起来；
+
+```js
+// server/config.js
+export default {
+  env: process.env.NODE_ENV,
+  port,
+  auth,
+  log,
+  mongodb: {
+    username: "wall", // 数据库用户
+    pwd: 123456, // 数据库密码
+    address: "localhost:27017",
+    db: "wallBlog", // 数据库名
+  },
+};
+```
+
+3. 启动本地的`mongo`服务，给数据库初始化在`server/config.js`配置的一些必要信息；
+
+```js
+> mongo // 开启mongo服务
+> show dbs // 显示数据库列表
+> use wallBlog // 新建一个wallBlog数据库
+> db.createUser({user:"wall",pwd:"123456",roles:[{role:"readWrite",db:'wallBlog'}]}) // 在wallBlog数据库创建一个wall用户，密码为123456
+> show users // 展示该库有哪些用户
+> db.auth("wall", "123456"); // 数据库认证一下用户、密码，返回 1 认证成功
+```
+
+4. 进入`server`目录，安装依赖，并开启服务
+
+```js
+cd server // 进入server目录
+yarn // 安装依赖包
+yarn server // 开启后端接口，成功了便会提示数据库连接成功
 ```
 
 #### 注意事项
