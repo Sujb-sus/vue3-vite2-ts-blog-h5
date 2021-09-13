@@ -7,7 +7,7 @@
 <img src="./public/index.jpg" width="260px"><img src="./public/label.jpg" width="260px"><img src="./public/detail.jpg" width="260px">
 <img src="./public/message.jpg" width="260px"><img src="./public/my.jpg" width="260px">
 
-需要后台接口数据的，请移至该仓库：[https://gitee.com/Sujb/wall-blog](https://gitee.com/Sujb/wall-blog)。
+需要后台接口数据的，请移至该仓库：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)。
 
 该仓库下共有三个项目，PC 管理端（admin）、PC 客户端（client）、后台服务端（server）。需要先连接本地`MongoDB`数据库，再启动管理端项目，就可以添加数据了。
 
