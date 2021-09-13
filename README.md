@@ -1,8 +1,14 @@
 ## vue3-vite2-blog-h5
 
-一款简约版本的移动端博客；主要是采用`Vue3`最新语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包
+一款简约版本的移动端博客；主要是采用`Vue3`最新语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。
 
 #### 项目预览
+
+<img src="./public/index.jpg" width="260px">
+<img src="./public/label.jpg" width="260px">
+<img src="./public/detail.jpg" width="260px">
+<img src="./public/message.jpg" width="260px">
+<img src="./public/my.jpg" width="260px">
 
 需要后台接口数据的，请移至该仓库：[https://gitee.com/Sujb/wall-blog](https://gitee.com/Sujb/wall-blog)。
 
@@ -10,7 +16,9 @@
 
 #### 项目结构
 
-#### 技术应用
+<img src="./public/wall-blog-h5.png">
+
+#### 技术运用
 
 ##### 一、rem 适配
 
@@ -21,13 +29,13 @@
 
 2. 在 main.ts 导入`amfe-flexible`
 
-```lang=ts
-import 'amfe-flexible';
+```typescript
+import "amfe-flexible";
 ```
 
 3. 在`postcss.config.js`配置`postcss-pxtorem`
 
-```
+```typescript
 module.exports = {
   plugins: {
     "postcss-pxtorem": {
@@ -46,7 +54,7 @@ module.exports = {
 1. 安装插件`yarn add autoprefixer -D`
 2. 在`postcss.config.js`配置`autoprefixer`
 
-```
+```typescript
 module.exports = {
   plugins: {
     autoprefixer: {
@@ -62,25 +70,24 @@ module.exports = {
 
 ##### 三、公共组件用 tsx 语法编写
 
-```
+```typescript
 // svgIcon.tsx
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from "vue";
 
 export default defineComponent({
-  name: 'svgIcon',
+  name: "svgIcon",
   props: {
     name: {
       type: String,
       required: true,
-    }
+    },
   },
   setup(props) {
     const iconName = computed(() => `#${props.name}`);
     return () => (
       <>
         <svg class="icon" aria-hidden="true">
-          <use xlinkHref={iconName.value}>
-          </use>
+          <use xlinkHref={iconName.value}></use>
         </svg>
       </>
     );
@@ -95,21 +102,21 @@ export default defineComponent({
 
 1. 父组件传值给子组件
 
-```
-// 父组件的html
+```html
+<!-- 父组件的html  -->
 <List :showTitle="false" :params="params"></List>
 ```
 
-```
+```typescript
 // 子组件的<script setup>
 interface Props {
-  showTitle?: boolean
-  params?: object
+  showTitle?: boolean;
+  params?: object;
 }
 const props = withDefaults(defineProps<Props>(), {
   showTitle: true,
   params: undefined,
-})
+});
 ```
 
 - `defineProps`定义 props 类型
@@ -118,20 +125,22 @@ const props = withDefaults(defineProps<Props>(), {
 
 2. 子组件传值给父组件
 
-```
-// 父组件的html
+```html
+<!-- 父组件的html -->
 <LabelSelect @changeLabel="changeLabel" ref="label"></LabelSelect>
+```
 
+```typescript
 // 父组件的<script setup>
 const changeLabel = (labelName: string) => {
-  params.type = labelName
-}
+  params.type = labelName;
+};
 ```
 
-```
+```typescript
 // 子组件的<script setup>
-const emit = defineEmits(['changeLabel'])
-emit('changeLabel', labelName)
+const emit = defineEmits(["changeLabel"]);
+emit("changeLabel", labelName);
 ```
 
 - `defineEmits`定义响应父组件的方法名，需要先定义才可通过 emit()响应
@@ -141,7 +150,7 @@ emit('changeLabel', labelName)
 
 - 用 use...以驼峰的形式开头定义文件，定义一个 useClickLike 函数且导出；
 
-```
+```typescript
 // useClickLikes.ts
 import { ref, computed } from "vue";
 
@@ -174,25 +183,21 @@ export default useClickLike;
 
 - 在 vue 文件中引用，先导入进来，再解构出所需要的函数逻辑
 
-```
-import useClickLike from '@/useMixin/useClickLike'
+```typescript
+import useClickLike from "@/useMixin/useClickLike";
 // 点赞逻辑
-const { handleLikes } = useClickLike(apiUpdateLikes)
+const { handleLikes } = useClickLike(apiUpdateLikes);
 ```
 
 - handleLikes 就可以在 html 模版直接运用
 
-```
-<div
-  class="footer-item"
-  @click.stop="handleLikes(item._id)"
->
-</div>
+```html
+<div class="footer-item" @click.stop="handleLikes(item._id)"></div>
 ```
 
 4. computed、watch 的使用
 
-```
+```typescript
 import { computed, watch } from 'vue'
 
 const getLikesNumber = computed(
@@ -215,15 +220,15 @@ watch(props.params, (newVal，oldVal) => {
 
 5. vuex 的使用
 
-```
-import { useStore } from 'vuex'
+```typescript
+import { useStore } from "vuex";
 
-const store = useStore()
+const store = useStore();
 // 获取label模块actions下的getLabelList方法
-const getLabelList = () => store.dispatch('label/getLabelList')
-getLabelList() // 直接执行方法
+const getLabelList = () => store.dispatch("label/getLabelList");
+getLabelList(); // 直接执行方法
 // 获取label模块getters下的labelList属性
-const labelList = store.getters['label/labelList']
+const labelList = store.getters["label/labelList"];
 ```
 
 - 其他具体用法请参考官方文档：[https://next.vuex.vuejs.org/zh/guide/modules.html](https://next.vuex.vuejs.org/zh/guide/modules.html)
@@ -234,7 +239,7 @@ const labelList = store.getters['label/labelList']
 - `/:pathMatch(.*)*`匹配所有路由做重定向用
 - 导入路由文件需要用`import.meta.glob`，不能用直接用`import`导入，`import`在开发时没问题，但是在打包后的文件会识别不了路由文件
 
-```
+```typescript
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Tabbar from "../components/tabbar";
 // 先识别所有的views/文件夹name/*.vue文件
@@ -269,10 +274,10 @@ export default router;
 
 - 获取路由携带的 query 参数
 
-```
-import { useRouter } from 'vue-router'
-const route = useRouter()
-const id = route.currentRoute.value.query['id']
+```typescript
+import { useRouter } from "vue-router";
+const route = useRouter();
+const id = route.currentRoute.value.query["id"];
 ```
 
 #### 注意事项
