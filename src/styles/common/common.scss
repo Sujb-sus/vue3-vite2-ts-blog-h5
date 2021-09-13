@@ -1,0 +1,28 @@
+// svg-icon
+:deep(svg) {
+  &.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    font-size: 16px;
+    svg:not(:root) {
+      overflow: hidden;
+    }
+  }
+}
+// no-data
+:deep(.no-data) {
+  margin-top: 10vh;
+  @include flex();
+  img {
+    width: 80vw;
+  }
+}
+// iPhone X系列底部加高
+@media #{$ipxMedia} {
+  .app-container {
+    padding-bottom: calc(50px + 34px) !important;
+  }
+}

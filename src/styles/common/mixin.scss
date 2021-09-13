@@ -1,0 +1,39 @@
+//flex布局
+@mixin flex($justify-content: center, $align-items: center, $direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+// 单行文本
+@mixin singleText() {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+// 多行文本
+@mixin multiText($line) {
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-all;
+}
+// 0.5px border
+// 父元素需要添加 position: relative;
+@mixin borderZeroPointFive(
+  $left: 0,
+  $bottom: 0,
+  $width: 100%,
+  $borderColor: $baseBorderColor
+) {
+  content: ' ';
+  position: absolute;
+  left: $left;
+  bottom: $bottom;
+  width: $width;
+  height: 1px;
+  background-color: $borderColor;
+  transform: scaleY(0.5);
+}

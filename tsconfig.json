@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "esnext", // 指定ECMAScript目标版本
+    "module": "esnext", // 指定生成哪个模块系统代码
+    "moduleResolution": "node", // 决定如何处理模块
+    "jsx": "preserve", // 在 .tsx文件里支持JSX
+    "baseUrl": ".", // 解析非相对模块名的基准目录
+    "allowJs": true, // 允许编译javascript文件
+    "allowSyntheticDefaultImports": true, // 允许从没有设置默认导出的模块中默认导入
+    "allowUnreachableCode": true, // 不报告执行不到的代码错误
+    "allowUnusedLabels": true, // 不报告未使用的标签错误
+    "esModuleInterop": true, // 支持用引入commonjs规范的包
+    "experimentalDecorators": true, // 启用实验性的ES装饰器
+    "strict": true, // 启用所有严格类型检查选项
+    "strictFunctionTypes": false, // 禁用函数参数双向协变检查
+    "skipLibCheck": true, // 忽略所有的声明文件（ *.d.ts）的类型检查
+    "noUnusedLocals": false, // 若有未使用的局部变量则抛错
+    "noUnusedParameters": true, // 若有未使用的参数则抛错
+    "isolatedModules": true, // 将每个文件作为单独的模块
+    "resolveJsonModule": true, // 允许直接导入JSON文件的
+    "sourceMap": true,
+    "suppressImplicitAnyIndexErrors": true, // 阻止 --noImplicitAny对缺少索引签名的索引对象报错
+    "forceConsistentCasingInFileNames": true, // 禁止对同一个文件的不一致的引用
+    "typeRoots": ["./node_modules/@types/", "./types"],
+    "types": ["vite/client"], // 要包含的类型声明文件名
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"] // 编译过程中需要引入的库文件
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.jsx",
+    "src/**/*.vue"
+  ],
+  "exclude": ["dist", "node_modules"]
+}

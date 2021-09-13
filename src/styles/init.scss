@@ -1,0 +1,207 @@
+html {
+  background: #fff;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-user-select: none; /* 禁止选中文本（如无文本选中需求，此为必选项） */
+  user-select: none;
+}
+html,
+body {
+  position: relative;
+  height: 100%;
+  min-height: 100%;
+  font-size: 12px;
+}
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+th,
+td,
+hr,
+button,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  margin: 0;
+  padding: 0;
+}
+
+/* 重设 HTML5 标签, IE 需要在 js 中 createElement(TAG) */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/* HTML5 媒体文件跟 img 保持一致 */
+audio,
+canvas,
+video {
+  display: inline-block;
+  zoom: 1;
+}
+
+/* 要注意表单元素并不继承父级 font 的问题 */
+body,
+button,
+input,
+select,
+textarea {
+  font-size: 12px;
+  line-height: 1.5;
+  font-family: PingFangSC-Regular, 'PingFang SC', 'San Francisco',
+    'Helvetica Neue', 'Hiragino Sans GB', 'Hiragino Sans GB W3',
+    'Microsoft Yahei', '微软雅黑', sans-serif, Tahoma, Helvetica, Arial, STHeiti;
+  -webkit-font-smoothing: antialiased;
+}
+input,
+button,
+select,
+textarea {
+  outline: none;
+  resize: none;
+}
+
+/* 去掉各Table  cell 的边距并让其边重合 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* IE bug fixed: th 不继承 text-align*/
+th {
+  text-align: inherit;
+}
+
+/* 去除默认边框 */
+fieldset,
+img {
+  border: 0;
+}
+
+/* ie6 7 8(q) bug 显示为行内表现 */
+iframe {
+  display: block;
+}
+
+/* 去掉 firefox 下此元素的边框 */
+abbr,
+acronym {
+  border: 0;
+  font-variant: normal;
+}
+
+/* 一致的 del 样式 */
+del {
+  text-decoration: line-through;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+th,
+var {
+  font-style: normal;
+}
+
+/* 去掉列表前的标识, li 会继承 */
+ol,
+ul {
+  list-style: none;
+}
+
+/* 来自yahoo, 让标题都自定义, 适应多个系统应用 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+b,
+strong {
+  font-weight: normal;
+}
+
+a,
+img {
+  -webkit-touch-callout: none; /* 禁止长按链接与图片弹出菜单 */
+}
+a,
+input,
+* {
+  /* 去掉outline */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
+  -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important;
+  outline: none !important;
+}
+ins,
+a {
+  text-decoration: none;
+}
+/*去除IE10下ipunt后面的叉叉*/
+input::-ms-clear {
+  display: none;
+}
+
+/*webkit渲染bugfix*/
+input[type='text'],
+input[type='password'],
+input[type='submit'],
+input[type='reset'],
+input[type='button'],
+button {
+  -webkit-appearance: none;
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
