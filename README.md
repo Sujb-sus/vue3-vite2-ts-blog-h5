@@ -2,12 +2,13 @@
 
 一款简约版本的移动端博客。前端项目主要是采用`Vue3`最新语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。后端项目主要采用`Node`框架`Koa2`以及`MongoDB`数据库来设计的。
 
-1.PC 端博客线上预览地址：[http://www.rasblog.com](http://www.rasblog.com)
-2.PC 端博客仓库地址：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)
+1. PC 端博客线上预览地址：[http://www.rasblog.com](http://www.rasblog.com)
+2. PC 端博客仓库地址：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)
 
 ## 项目预览
 
 <img src="./public/index.jpg" height="500px"><img src="./public/label.jpg" height="500px">
+
 <img src="./public/detail.jpg" height="500px"><img src="./public/message.jpg" height="500px">
 
 ## 项目结构
