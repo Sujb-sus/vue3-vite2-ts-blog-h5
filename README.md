@@ -4,11 +4,8 @@
 
 #### 项目预览
 
-<img src="./public/index.jpg" width="260px">
-<img src="./public/label.jpg" width="260px">
-<img src="./public/detail.jpg" width="260px">
-<img src="./public/message.jpg" width="260px">
-<img src="./public/my.jpg" width="260px">
+<img src="./public/index.jpg" width="260px"><img src="./public/label.jpg" width="260px"><img src="./public/detail.jpg" width="260px">
+<img src="./public/message.jpg" width="260px"><img src="./public/my.jpg" width="260px">
 
 需要后台接口数据的，请移至该仓库：[https://gitee.com/Sujb/wall-blog](https://gitee.com/Sujb/wall-blog)。
 
