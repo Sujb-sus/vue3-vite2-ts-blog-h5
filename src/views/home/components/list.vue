@@ -97,7 +97,7 @@ const gotoDetail = (id: string) => {
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh" v-if="total">
       <div class="list-title" v-if="props.showTitle">
         <SvgIcon name="icon-label01"></SvgIcon>
-        <span>最新文章</span>
+        <span>最新文章({{ total }})</span>
       </div>
       <van-list
         v-model:loading="loading"

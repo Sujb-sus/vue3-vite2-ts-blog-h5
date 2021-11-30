@@ -16,6 +16,7 @@ let detail = ref<articleModel>()
 let detailHtml = ref('')
 // 获取文章详情
 const getBlogDetail = () => {
+  base.showLoading()
   return apiGetBlogDetail({ _id: id })
     .then((res) => {
       detail.value = res.data
@@ -27,6 +28,7 @@ const getBlogDetail = () => {
       }
     })
     .catch((err) => console.log(err))
+    .finally(() => base.hideLoading())
 }
 // 更新浏览量
 const updatePV = () => {
