@@ -11,22 +11,35 @@ module.exports = {
       pageindex = 1,
       pagesize = 9,
       sortBy = null,
+      isMobile = false,
+      type = null,
     } = ctx.request.query;
-
     // 条件参数
     let conditions = { isVisible: true };
-    if (keyword) {
-      let reg = new RegExp(keyword, "i");
-      // 区分搜索框、标签场景
-      let searchObj = isQuery
-        ? [{ title: { $regex: reg } }, { desc: { $regex: reg } }]
-        : [{ type: { $regex: reg } }];
-      conditions["$or"] = [...searchObj];
+    // 用isMobile来区分移动端和pc端
+    let reg = new RegExp(keyword, "i");
+    if (isMobile) {
+      if (type) {
+        conditions.type = type;
+      }
+      if (keyword) {
+        let searchObj = [{ title: { $regex: reg } }, { desc: { $regex: reg } }];
+        conditions["$or"] = [...searchObj];
+      }
+    } else {
+      if (keyword) {
+        // 区分搜索框、标签场景
+        let searchObj = isQuery
+          ? [{ title: { $regex: reg } }, { desc: { $regex: reg } }]
+          : [{ type: { $regex: reg } }];
+        conditions["$or"] = [...searchObj];
+      }
     }
     // 排序参数
     let sortParams = {};
     if (sortBy) {
       sortParams[sortBy] = -1;
+    } else {
       sortParams["releaseTime"] = -1;
     }
 
