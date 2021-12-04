@@ -141,6 +141,7 @@ const addReply = (replyItem: replyObj) => {
     padding: 12px 16px 8px;
     position: relative;
     .item-img {
+      display: flex;
       padding-right: 16px;
       :deep(svg) {
         font-size: 36px;
