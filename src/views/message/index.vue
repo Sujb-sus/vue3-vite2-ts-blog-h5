@@ -3,22 +3,22 @@ import {
   apiGetMessageList,
   apiGetReplyCount,
   apiAddMessage,
-} from '@/api/message'
-import { ref } from 'vue'
-import base from '@/utils/base'
-import NoData from '@/components/noData'
-import CommentEditor from './components/commentEditor.vue'
-import CommentList from './components/commentList.vue'
-import { commentModel } from '@/models/index'
+} from "@/api/message";
+import { ref } from "vue";
+import base from "@/utils/base";
+import NoData from "@/components/noData";
+import CommentEditor from "./components/commentEditor.vue";
+import CommentList from "./components/commentList.vue";
+import { commentModel } from "@/models/index";
 
-let replyCount = ref(0)
-let total = ref(-1)
-let commentList = ref<Array<commentModel>>([])
-const loading = ref(false)
-const finished = ref(false)
-const pageindex = ref(1)
-const pagesize = ref(10)
-const editorRef = ref() // 引用子组件 object
+let replyCount = ref(0);
+let total = ref(-1);
+let commentList = ref<Array<commentModel>>([]);
+let loading = ref(false);
+let finished = ref(false);
+let pageindex = ref(1);
+let pagesize = ref(10);
+let editorRef = ref(); // 引用子组件 object
 
 // 获取留言列表
 const getMessageList = () => {
@@ -26,49 +26,50 @@ const getMessageList = () => {
     pageindex: pageindex.value,
     pagesize: pagesize.value,
   }).then((res) => {
-    commentList.value = commentList.value.concat(res?.data?.list)
-    total.value = res?.data?.total
-    finished.value = pageindex.value * pagesize.value >= total.value
-  })
-}
+    commentList.value = commentList.value.concat(res?.data?.list);
+    total.value = res?.data?.total;
+    finished.value = pageindex.value * pagesize.value >= total.value;
+  });
+};
 // 获取回复数量
 const getReplyCount = () => {
   return apiGetReplyCount().then((res) => {
-    replyCount.value = res?.data[0]?.replyCount
-  })
-}
+    replyCount.value = res?.data[0]?.replyCount;
+  });
+};
+// 初始化数据
 const initData = () => {
-  commentList.value = []
-  pageindex.value = 1
-  base.showLoading()
+  commentList.value = [];
+  pageindex.value = 1;
+  base.showLoading();
   Promise.all([getMessageList(), getReplyCount()])
     .catch((err) => {
-      console.log(err)
+      console.log(err);
     })
     .finally(() => {
-      loading.value = false
-      base.hideLoading()
-    })
-}
-initData()
+      loading.value = false;
+      base.hideLoading();
+    });
+};
+initData();
 // 滚动加载
 const onLoad = () => {
-  pageindex.value++
-  getMessageList()
-}
+  pageindex.value++;
+  getMessageList();
+};
 // 添加留言
 const addMessage = (params: object) => {
-  base.showLoading()
+  base.showLoading();
   return apiAddMessage(params)
     .then(() => {
-      editorRef.value.resetData()
-      initData()
+      editorRef.value.resetData();
+      initData();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      base.hideLoading()
-    })
-}
+      base.hideLoading();
+    });
+};
 </script>
 
 <template>

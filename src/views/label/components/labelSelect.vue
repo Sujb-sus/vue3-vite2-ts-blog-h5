@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { useStore } from "vuex";
+import { ref } from "vue";
 
-const emit = defineEmits(['changeLabel'])
-const store = useStore()
-const labelList = store.getters['label/labelList']
-let activeIndex = ref(-1)
-let labelName = ref('')
-// index类型可能为number、string、symbol
+const store = useStore();
+const emit = defineEmits(["changeLabel"]);
+const labelList = store.getters["label/labelList"];
+
+let activeIndex = ref(-1);
+let labelName = ref("");
+
+// 选择label类别
 const handleLabel = (index: any, label: string) => {
-  labelName.value = activeIndex.value === index && labelName.value ? '' : label
-  activeIndex.value = index
-  emit('changeLabel', labelName)
-}
+  labelName.value = activeIndex.value === index && labelName.value ? "" : label;
+  activeIndex.value = index;
+  emit("changeLabel", labelName);
+};
 </script>
 
 <template>

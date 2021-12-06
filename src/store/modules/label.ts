@@ -7,7 +7,7 @@ type State = {
 export default {
   namespaced: true,
   state: {
-    labelList: undefined,
+    labelList: null,
   },
   mutations: {
     setLabelList(state: State, data: Array<labelModel>) {

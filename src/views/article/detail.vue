@@ -1,44 +1,46 @@
 <script setup lang="ts">
-import base from '@/utils/base'
-import { apiGetBlogDetail, apiUpdatePV } from '@/api/blog'
-import SvgIcon from '@/components/svgIcon'
-import { formatTime, formatNumber } from '@/filters/index'
-import useGetLabelColor from '@/useMixin/useGetLabelColor'
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import { articleModel } from '@/models/index'
+import base from "@/utils/base";
+import { apiGetBlogDetail, apiUpdatePV } from "@/api/blog";
+import SvgIcon from "@/components/svgIcon";
+import { formatTime, formatNumber } from "@/filters/index";
+import useGetLabelColor from "@/useMixin/useGetLabelColor";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { articleModel } from "@/models/index";
 
-// 标签背景色
-const { getLabelColor } = useGetLabelColor()
-const route = useRouter()
-const id = route.currentRoute.value.query['id']
-let detail = ref<articleModel>()
-let detailHtml = ref('')
+const { getLabelColor } = useGetLabelColor();
+const route = useRouter();
+
+let id = route.currentRoute.value.query["id"];
+let detail = ref<articleModel>();
+let detailHtml = ref("");
+
 // 获取文章详情
 const getBlogDetail = () => {
-  base.showLoading()
+  base.showLoading();
   return apiGetBlogDetail({ _id: id })
     .then((res) => {
-      detail.value = res.data
+      detail.value = res.data;
       if (detail.value) {
         detailHtml.value = detail.value?.html?.replace(
           /<a /gi,
           `<a target='_blank'`
-        )
+        );
       }
     })
     .catch((err) => console.log(err))
-    .finally(() => base.hideLoading())
-}
+    .finally(() => base.hideLoading());
+};
 // 更新浏览量
 const updatePV = () => {
   return apiUpdatePV({ _id: id })
     .then(() => {
-      getBlogDetail()
+      getBlogDetail();
     })
-    .catch((err) => console.log(err))
-}
-updatePV()
+    .catch((err) => console.log(err));
+};
+
+updatePV();
 </script>
 
 <template>
@@ -49,7 +51,7 @@ updatePV()
         <div class="func-icon">
           <SvgIcon name="icon-date02"></SvgIcon>
           <div class="box-text">
-            {{ formatTime(detail.releaseTime, 'yyyy-MM-dd') }}
+            {{ formatTime(detail.releaseTime, "yyyy-MM-dd") }}
           </div>
         </div>
         <div class="func-icon">

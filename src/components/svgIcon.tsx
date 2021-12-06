@@ -11,12 +11,10 @@ export default defineComponent({
   setup(props) {
     const iconName = computed(() => `#${props.name}`);
     return () => (
-      <>
-        <svg class="icon" aria-hidden="true">
-          <use xlinkHref={iconName.value}>
-          </use>
-        </svg>
-      </>
+      <svg class="icon" aria-hidden="true">
+        <use xlinkHref={iconName.value}>
+        </use>
+      </svg>
     );
   },
 });

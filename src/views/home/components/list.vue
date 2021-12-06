@@ -1,45 +1,42 @@
 
 <script setup lang="ts">
-import base from '@/utils/base'
-import NoData from '@/components/noData'
-import SvgIcon from '@/components/svgIcon'
-import { apiGetBlogList, apiUpdateLikes } from '@/api/blog'
-import { formatTime, formatNumber } from '@/filters/index'
-import useClickLike from '@/useMixin/useClickLike'
-import useGetLabelColor from '@/useMixin/useGetLabelColor'
-import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
-import { articleModel } from '@/models/index'
+import base from "@/utils/base";
+import NoData from "@/components/noData";
+import SvgIcon from "@/components/svgIcon";
+import { apiGetBlogList, apiUpdateLikes } from "@/api/blog";
+import { formatTime, formatNumber } from "@/filters/index";
+import useClickLike from "@/useMixin/useClickLike";
+import useGetLabelColor from "@/useMixin/useGetLabelColor";
+import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
+import { articleModel } from "@/models/index";
 
-const route = useRouter()
-// 父组件传下来的值
 interface Props {
-  showTitle?: boolean
-  params?: object
+  showTitle?: boolean;
+  params?: object;
 }
 const props = withDefaults(defineProps<Props>(), {
   showTitle: true,
   params: undefined,
-})
-// 点赞逻辑
+});
 const { getLikesNumber, getLikesColor, handleLikes } =
-  useClickLike(apiUpdateLikes)
-// 标签背景色
-const { getLabelColor } = useGetLabelColor()
+  useClickLike(apiUpdateLikes);
+const { getLabelColor } = useGetLabelColor();
+const route = useRouter();
 
-const loading = ref(false)
-const finished = ref(false)
-const refreshing = ref(false)
-const hasLoad = ref(false)
-const pageindex = ref(1)
-const pagesize = ref(10)
-const total = ref(0)
-let list = ref<Array<articleModel>>([])
+let loading = ref(false);
+let finished = ref(false);
+let refreshing = ref(false);
+let hasLoad = ref(false);
+let pageindex = ref(1);
+let pagesize = ref(10);
+let total = ref(0);
+let list = ref<Array<articleModel>>([]);
 
 // 获取文章列表
 const getBlogList = (reload = true) => {
   if (reload) {
-    base.showLoading()
+    base.showLoading();
   }
   return apiGetBlogList({
     pageindex: pageindex.value,
@@ -47,49 +44,49 @@ const getBlogList = (reload = true) => {
     ...props.params,
   })
     .then((res) => {
-      list.value = list.value.concat(res?.data?.list)
-      total.value = res?.data?.total
-      finished.value = pageindex.value * pagesize.value >= total.value
+      list.value = list.value.concat(res?.data?.list);
+      total.value = res?.data?.total;
+      finished.value = pageindex.value * pagesize.value >= total.value;
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      hasLoad.value = true
-      loading.value = false
-      refreshing.value = false
+      hasLoad.value = true;
+      loading.value = false;
+      refreshing.value = false;
       if (reload) {
-        base.hideLoading()
+        base.hideLoading();
       }
-    })
-}
-getBlogList()
+    });
+};
+getBlogList();
 // 监听参数
 if (props.params) {
   watch(props.params, () => {
-    pageindex.value = 1
-    hasLoad.value = false
-    loading.value = false
-    finished.value = false
-    list.value = []
-    getBlogList()
-  })
+    pageindex.value = 1;
+    hasLoad.value = false;
+    loading.value = false;
+    finished.value = false;
+    list.value = [];
+    getBlogList();
+  });
 }
 // 下拉刷新
 const onRefresh = () => {
-  pageindex.value = 1
-  list.value = []
-  getBlogList()
-}
+  pageindex.value = 1;
+  list.value = [];
+  getBlogList();
+};
 // 滚动加载
 const onLoad = () => {
   if (!refreshing.value) {
-    pageindex.value++
-    getBlogList(false)
+    pageindex.value++;
+    getBlogList(false);
   }
-}
+};
 // 去详情页
 const gotoDetail = (id: string) => {
-  route.push({ path: '/article/detail', query: { id } })
-}
+  route.push({ path: "/article/detail", query: { id } });
+};
 </script>
 
 <template>
@@ -135,7 +132,7 @@ const gotoDetail = (id: string) => {
             <div class="footer-item">
               <SvgIcon name="icon-date02"></SvgIcon>
               <div class="footer-text">
-                {{ formatTime(item.releaseTime, 'yyyy-MM-dd') }}
+                {{ formatTime(item.releaseTime, "yyyy-MM-dd") }}
               </div>
             </div>
             <div class="footer-item">

@@ -1,9 +1,14 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 
-function useGetLabelColor() {
+/**
+ * 封装获取标签背景色逻辑
+ * @description 文章Item、文章详情Detail
+ */
+const useGetLabelColor = () => {
   const store = useStore();
   const labelList = store.getters["label/labelList"];
+
   const getLabelColor = computed(() => {
     return (labelName: string) => {
       if (labelList && labelList.length) {
@@ -22,6 +27,6 @@ function useGetLabelColor() {
   return {
     getLabelColor,
   };
-}
+};
 
 export default useGetLabelColor;

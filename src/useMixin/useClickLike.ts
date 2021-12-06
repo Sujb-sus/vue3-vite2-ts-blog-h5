@@ -1,11 +1,17 @@
 import { ref, computed } from "vue";
 import { Toast } from "vant";
 
-function useClickLike(requestApi: Function) {
+/**
+ * 封装点赞逻辑
+ * @requestApi api请求的path
+ * @description 点赞文章、留言
+ */
+const useClickLike = (requestApi: Function) => {
   let currentId = ref(""); // 当前id
   let isLike = ref(false); // 是否点赞
   let isLikeSuccess = ref(true); // 是否点赞成功
   let likeList = ref<string[]>([]); // 点过赞列表
+
   // 获取点赞数
   const getLikesNumber = computed(
     () => (id: string, likes: number) =>
@@ -15,7 +21,7 @@ function useClickLike(requestApi: Function) {
   const getLikesColor = computed(
     () => (id: string) => isLikeSuccess.value && likeList.value.includes(id)
   );
-
+  // 点赞事件
   const handleLikes = (id: string) => {
     if (likeList.value.includes(id)) {
       isLike.value = true;
@@ -41,6 +47,6 @@ function useClickLike(requestApi: Function) {
     getLikesColor,
     handleLikes,
   };
-}
+};
 
 export default useClickLike;

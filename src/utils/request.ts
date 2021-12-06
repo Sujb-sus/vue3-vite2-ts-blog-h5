@@ -27,7 +27,7 @@ axios.interceptors.response.use(
 );
 
 // 检查状态码
-function checkStatus(res: responseStatus) {
+const checkStatus = (res: responseStatus) => {
   if (res.status === 200 || res.status === 304) {
     return res.data;
   }
@@ -36,10 +36,10 @@ function checkStatus(res: responseStatus) {
     msg: res.statusText,
     data: res.statusText,
   };
-}
+};
 
 // 检查CODE值
-function checkCode(res: responseCode) {
+const checkCode = (res: responseCode) => {
   if (res.code === 0) {
     Toast.fail({
       message: res.msg,
@@ -48,7 +48,7 @@ function checkCode(res: responseCode) {
     throw new Error(res.msg);
   }
   return res;
-}
+};
 
 const prefix = "/client_api";
 export default {

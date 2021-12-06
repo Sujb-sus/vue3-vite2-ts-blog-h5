@@ -5,6 +5,6 @@ import axios from "@/utils/request";
  * @param data
  * @returns {AxiosPromise}
  */
-export function apiGetLabelList(params?: object) {
+export const apiGetLabelList = (params?: object) => {
   return axios.get("/label/list", params);
-}
+};

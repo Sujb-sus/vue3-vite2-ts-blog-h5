@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import SvgIcon from '@/components/svgIcon'
-import CommentItem from './commentItem.vue'
-import { commentModel } from '@/models/index'
+import SvgIcon from "@/components/svgIcon";
+import CommentItem from "./commentItem.vue";
+import { commentModel } from "@/models/index";
 
-// 父组件传下来的值
 interface Props {
-  commentList?: Array<commentModel>
-  total?: number
-  replyCount?: number
+  commentList?: Array<commentModel>;
+  total?: number;
+  replyCount?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
   commentList: () => [],
   total: 0,
   replyCount: 0,
-})
-const emit = defineEmits(['replySuccess'])
+});
+const emit = defineEmits(["replySuccess"]);
+
 const replySuccess = () => {
-  emit('replySuccess')
-}
+  emit("replySuccess");
+};
 </script>
 
 <template>

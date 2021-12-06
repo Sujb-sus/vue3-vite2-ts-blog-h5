@@ -1,9 +1,10 @@
 # vue3-vite2-blog-h5
 
-一款简约版本的移动端博客。前端项目主要是采用`Vue3`最新语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。后端项目主要采用`Node`框架`Koa2`以及`MongoDB`数据库来设计的。
+一款简约的移动端博客。前端项目主要是采用`Vue3`语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。后端项目主要采用`Node`框架`Koa2`以及`MongoDB`数据库来设计的。
 
-1. PC 端博客线上预览地址：[http://www.rasblog.com](http://www.rasblog.com)
-2. PC 端博客仓库地址：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)
+1. PC 版本线上预览地址：[http://www.rasblog.com](http://www.rasblog.com)
+2. Vue2 Node PC 版本仓库地址：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)
+3. React Hooks H5 版本仓库地址：[https://github.com/Sujb-sus/react-hooks-blog-h5](https://github.com/Sujb-sus/react-hooks-blog-h5)
 
 ## 项目预览
 
@@ -150,7 +151,11 @@ emit("changeLabel", labelName);
 ```typescript
 // useClickLikes.ts
 import { ref, computed } from "vue";
-
+/**
+ * 封装点赞逻辑
+ * @requestApi api请求的path
+ * @description 点赞文章、留言
+ */
 function useClickLike(requestApi: Function) {
   let currentId = ref(""); // 当前id
   let isLike = ref(false); // 是否点赞
@@ -197,11 +202,12 @@ const { handleLikes } = useClickLike(apiUpdateLikes);
 ```typescript
 import { computed, watch } from 'vue'
 
-const getLikesNumber = computed(
+// 获取点赞数
+  const getLikesNumber = computed(
     () => (id: string, likes: number) =>
-      likeList.value.includes(id) ? likes + 1 : likes
+      isLikeSuccess.value && likeList.value.includes(id) ? likes + 1 : likes
   );
-
+// 监听参数
 watch(props.params, (newVal，oldVal) => {
     pageindex.value = 1
     hasLoad.value = false
@@ -212,7 +218,8 @@ watch(props.params, (newVal，oldVal) => {
   })
 ```
 
-- computed 语法跟 vue2 一样，watch 语法有稍微不同，props.params 为监听对象，newVal 为监听到的最新值，oldVal 为旧值
+- computed 语法：id 和 likes 为 getLikesNumber 的形参
+- watch 语法：props.params 为监听对象，newVal 为监听到的最新值，oldVal 为旧值
 - 具体语法可参看官方文档：[https://v3.cn.vuejs.org/api/computed-watch-api.html#computed](https://v3.cn.vuejs.org/api/computed-watch-api.html#computed)
 
 #### 5. vuex 的使用

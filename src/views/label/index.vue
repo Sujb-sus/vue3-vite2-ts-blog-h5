@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import LabelSelect from './components/labelSelect.vue'
-import List from '@/views/home/components/list.vue'
-import { reactive, ref } from 'vue'
-import SvgIcon from '@/components/svgIcon'
+import LabelSelect from "./components/labelSelect.vue";
+import List from "@/views/home/components/list.vue";
+import { reactive, ref } from "vue";
+import SvgIcon from "@/components/svgIcon";
 
-const params = reactive({
-  keyword: '',
-  sortBy: '',
-  type: '',
+let params = reactive({
+  keyword: "",
+  sortBy: "",
+  type: "",
   isMobile: true,
-})
-const changeLabel = (labelName: string) => {
-  params.type = labelName
-}
-let keyword = ref('')
+});
+let keyword = ref("");
+
+// 根据关键词搜索
 const onSearch = () => {
-  params.keyword = keyword.value
-}
-const onCancel = () => {
-  params.keyword = ''
-}
+  params.keyword = keyword.value;
+};
 </script>
 
 <template>
@@ -32,10 +28,13 @@ const onCancel = () => {
         :show-action="!!keyword"
         placeholder="请输入搜索关键词"
         @search="onSearch"
-        @cancel="onCancel"
+        @cancel="() => (params.keyword = '')"
       />
     </form>
-    <LabelSelect @changeLabel="changeLabel" ref="label"></LabelSelect>
+    <LabelSelect
+      @changeLabel="(val) => (params.type = val)"
+      ref="label"
+    ></LabelSelect>
     <van-tabs
       v-model:active="params.sortBy"
       color="#009688"

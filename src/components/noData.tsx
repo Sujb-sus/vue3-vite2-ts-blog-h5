@@ -5,11 +5,9 @@ export default defineComponent({
   name: "noData",
   setup() {
     return () => (
-      <>
-        <div class="no-data">
-          <img src={img} />
-        </div>
-      </>
+      <div class="no-data">
+        <img src={img} />
+      </div>
     );
   },
 });

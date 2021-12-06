@@ -1,43 +1,46 @@
 <script setup lang="ts">
-import { Toast } from 'vant'
-import { ref } from 'vue'
+import { Toast } from "vant";
+import { ref } from "vue";
 
-const emit = defineEmits(['submitSuccess'])
-const content = ref('')
-const nickname = ref('')
+const emit = defineEmits(["submitSuccess"]);
+
+let content = ref("");
+let nickname = ref("");
 let colorList = ref([
-  '#EB6841',
-  '#3FB8AF',
-  '#464646',
-  '#FC9D9A',
-  '#ED8901',
-  '#C8C8A9',
-  '#83AF9B',
-  '#036564',
-])
+  "#EB6841",
+  "#3FB8AF",
+  "#464646",
+  "#FC9D9A",
+  "#ED8901",
+  "#C8C8A9",
+  "#83AF9B",
+  "#036564",
+]);
 
+// 提交留言
 const handleSubmit = () => {
   if (!content.value) {
-    Toast('内容不能为空')
-    return false
+    Toast("内容不能为空");
+    return false;
   }
   const params = {
     content: content.value,
     nickname: nickname.value,
-    createTime: new Date().getTime() + '',
+    createTime: new Date().getTime() + "",
     headerColor: colorList.value[Math.floor(Math.random() * 7)],
-  }
-  emit('submitSuccess', params)
-}
+  };
+  emit("submitSuccess", params);
+};
+// 重置表单数据
 const resetData = () => {
-  content.value = ''
-  nickname.value = ''
-}
+  content.value = "";
+  nickname.value = "";
+};
 // 子组件需要明确使用expose方法暴露出接口之后，才能在父组件获取到接口引用。
 // 未暴露接口的情况下，引用的始终是一个空对象。
 defineExpose({
   resetData,
-})
+});
 </script>
 
 <template>

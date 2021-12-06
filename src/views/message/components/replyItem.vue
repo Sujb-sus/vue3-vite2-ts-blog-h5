@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import SvgIcon from '@/components/svgIcon'
-import { formatTime } from '@/filters/index'
-import { replyItem as replyObj } from '@/models/index'
+import SvgIcon from "@/components/svgIcon";
+import { formatTime } from "@/filters/index";
+import { replyItem as replyObj } from "@/models/index";
 
-// 父组件传下来的值
 interface Props {
-  reply?: replyObj
+  reply?: replyObj;
 }
 const props = withDefaults(defineProps<Props>(), {
   reply: undefined,
-})
-const replyItem = props.reply
+});
+
+let replyItem = props.reply;
 </script>
 
 <template>
@@ -27,7 +27,7 @@ const replyItem = props.reply
         <div v-html="replyItem.replyContent" class="reply-content"></div>
       </div>
       <div class="reply-date">
-        {{ formatTime(replyItem.replyTime, 'yyyy-MM-dd hh:mm:ss') }}
+        {{ formatTime(replyItem.replyTime, "yyyy-MM-dd hh:mm:ss") }}
       </div>
     </div>
   </div>

@@ -1,72 +1,72 @@
 <script setup lang="ts">
-import { apiUpdateLikes, apiUpdateReplys } from '@/api/message'
-import ReplyItem from './replyItem.vue'
-import CommentEditor from './commentEditor.vue'
-import SvgIcon from '@/components/svgIcon'
-import base from '@/utils/base'
-import { ref } from 'vue'
-import { formatTime, formatNumber } from '@/filters/index'
-import useClickLike from '@/useMixin/useClickLike'
-import { commentModel } from '@/models/index'
+import { apiUpdateLikes, apiUpdateReplys } from "@/api/message";
+import ReplyItem from "./replyItem.vue";
+import CommentEditor from "./commentEditor.vue";
+import SvgIcon from "@/components/svgIcon";
+import base from "@/utils/base";
+import { ref } from "vue";
+import { formatTime, formatNumber } from "@/filters/index";
+import useClickLike from "@/useMixin/useClickLike";
+import { commentModel } from "@/models/index";
 
-// 父组件传下来的值
 interface Props {
-  item?: commentModel
+  item?: commentModel;
 }
 const props = withDefaults(defineProps<Props>(), {
   item: undefined,
-})
-const commentItem = props.item
-const emit = defineEmits(['replySuccess'])
-// 点赞逻辑
+});
 const { getLikesNumber, getLikesColor, handleLikes } =
-  useClickLike(apiUpdateLikes)
+  useClickLike(apiUpdateLikes);
+const emit = defineEmits(["replySuccess"]);
 
+let commentItem = props.item;
 let colorList = ref([
-  '#EB6841',
-  '#3FB8AF',
-  '#464646',
-  '#FC9D9A',
-  '#ED8901',
-  '#C8C8A9',
-  '#83AF9B',
-  '#036564',
-])
-let isEdit = ref(false)
-let currentId = ref('')
-let byReplyUser = ref('')
-const editorRef = ref() // 引用子组件
+  "#EB6841",
+  "#3FB8AF",
+  "#464646",
+  "#FC9D9A",
+  "#ED8901",
+  "#C8C8A9",
+  "#83AF9B",
+  "#036564",
+]);
+let isEdit = ref(false);
+let currentId = ref("");
+let byReplyUser = ref("");
+let editorRef = ref(); // 引用子组件
+
+// 点击回复留言
 const handleReply = (id: string, name: string) => {
-  isEdit.value = !isEdit.value
-  currentId.value = id
-  byReplyUser.value = name
-}
+  isEdit.value = !isEdit.value;
+  currentId.value = id;
+  byReplyUser.value = name;
+};
 
 type replyObj = {
-  content: string
-  nickname: string
-}
+  content: string;
+  nickname: string;
+};
 // 添加回复
 const addReply = (replyItem: replyObj) => {
   const params = {
     _id: currentId.value,
-    replyTime: new Date().getTime() + '',
+    replyTime: new Date().getTime() + "",
     replyContent: replyItem.content,
     replyUser: replyItem.nickname,
     byReplyUser: byReplyUser.value,
     replyHeaderColor: colorList.value[Math.floor(Math.random() * 7)],
-  }
-  base.showLoading()
+  };
+  base.showLoading();
   return apiUpdateReplys(params)
     .then(() => {
-      emit('replySuccess')
-      editorRef.value.resetData()
+      emit("replySuccess");
+      editorRef.value.resetData();
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      base.hideLoading()
-    })
-}
+      base.hideLoading();
+    });
+};
 </script>
 
 <template>
@@ -79,7 +79,7 @@ const addReply = (replyItem: replyObj) => {
         <div class="box-title">
           {{ commentItem.nickname }}
           <span>{{
-            formatTime(commentItem.createTime, 'yyyy-MM-dd hh:mm')
+            formatTime(commentItem.createTime, "yyyy-MM-dd hh:mm")
           }}</span>
         </div>
         <div class="box-content" v-html="commentItem.content"></div>
@@ -101,9 +101,9 @@ const addReply = (replyItem: replyObj) => {
             @click.stop="handleReply(commentItem._id, commentItem.nickname)"
           >
             <SvgIcon name="icon-reply02"></SvgIcon>
-            <span>{{ isEdit ? '取消' : '回复' }}</span>
+            <span>{{ isEdit ? "取消" : "回复" }}</span>
             <span>{{
-              commentItem.replyList?.length ? commentItem.replyList?.length : ''
+              commentItem.replyList?.length ? commentItem.replyList?.length : ""
             }}</span>
           </div>
         </div>

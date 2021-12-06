@@ -4,7 +4,7 @@
  * @param  time
  * @param  fmt
  */
-export function formatTime(time: any, fmt: string) {
+export const formatTime = (time: any, fmt: string) => {
   time = parseInt(time);
   if (!time) {
     return "";
@@ -34,16 +34,16 @@ export function formatTime(time: any, fmt: string) {
     }
   }
   return fmt;
-}
+};
 
 /**
  * 数字转成 k、w 方式
  * @param  num
  */
-export function formatNumber(num: number) {
+export const formatNumber = (num: number) => {
   return num >= 1e3 && num < 1e4
     ? (num / 1e3).toFixed(1) + "k"
     : num >= 1e4
     ? (num / 1e4).toFixed(1) + "w"
     : num;
-}
+};

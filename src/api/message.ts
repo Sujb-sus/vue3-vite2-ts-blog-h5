@@ -5,42 +5,42 @@ import axios from "@/utils/request";
  * @param data
  * @returns {AxiosPromise}
  */
-export function apiGetMessageList(params?: object) {
+export const apiGetMessageList = (params?: object) => {
   return axios.get("/message/list", params);
-}
+};
 
 /**
  * 获取回复数量
  * @param data
  * @returns {AxiosPromise}
  */
-export function apiGetReplyCount(params?: object) {
+export const apiGetReplyCount = (params?: object) => {
   return axios.get("/message/replyCount", params);
-}
+};
 
 /**
  * 添加留言
  * @param data
  * @returns {AxiosPromise}
  */
-export function apiAddMessage(params: object) {
+export const apiAddMessage = (params: object) => {
   return axios.post("/message/add", params);
-}
+};
 
 /**
  * 点赞
  * @param data
  * @returns {AxiosPromise}
  */
-export function apiUpdateLikes(params: object) {
+export const apiUpdateLikes = (params: object) => {
   return axios.post("/message/updateLikes", params);
-}
+};
 
 /**
  * 回复
  * @param data
  * @returns {AxiosPromise}
  */
-export function apiUpdateReplys(params: object) {
+export const apiUpdateReplys = (params: object) => {
   return axios.post("/message/updateReplys", params);
-}
+};
