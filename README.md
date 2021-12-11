@@ -2,7 +2,7 @@
 
 一款简约的移动端博客。前端项目主要是采用`Vue3`语法糖`<script setup>`和`Vant3.0`来搭建的；采用`Tsx`来渲染公共组件；采用`Vite2.0`来构建、打包。后端项目主要采用`Node`框架`Koa2`以及`MongoDB`数据库来设计的。
 
-1. PC 版本线上预览地址：[http://www.rasblog.com](http://www.rasblog.com)
+1. Vue2 Node PC 版本线上预览地址：[http://www.rasblog.com](http://www.rasblog.com)
 2. Vue2 Node PC 版本仓库地址：[https://github.com/Sujb-sus/vue-node-mongodb-blog](https://github.com/Sujb-sus/vue-node-mongodb-blog)
 3. React Hooks H5 版本仓库地址：[https://github.com/Sujb-sus/react-hooks-blog-h5](https://github.com/Sujb-sus/react-hooks-blog-h5)
 
@@ -28,7 +28,7 @@
 2. 在 main.ts 导入`amfe-flexible`
 
 ```typescript
-import "amfe-flexible";
+import 'amfe-flexible';
 ```
 
 3. 在`postcss.config.js`配置`postcss-pxtorem`
@@ -36,9 +36,9 @@ import "amfe-flexible";
 ```typescript
 module.exports = {
   plugins: {
-    "postcss-pxtorem": {
+    'postcss-pxtorem': {
       rootValue: 37.5,
-      propList: ["*"],
+      propList: ['*'],
     },
   },
 };
@@ -56,7 +56,7 @@ module.exports = {
 module.exports = {
   plugins: {
     autoprefixer: {
-      overrideBrowserslist: ["Android 4.1", "iOS 7.1"],
+      overrideBrowserslist: ['Android 4.1', 'iOS 7.1'],
       grid: true,
     },
   },
@@ -70,10 +70,10 @@ module.exports = {
 
 ```typescript
 // svgIcon.tsx
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
-  name: "svgIcon",
+  name: 'svgIcon',
   props: {
     name: {
       type: String,
@@ -137,8 +137,8 @@ const changeLabel = (labelName: string) => {
 
 ```typescript
 // 子组件的<script setup>
-const emit = defineEmits(["changeLabel"]);
-emit("changeLabel", labelName);
+const emit = defineEmits(['changeLabel']);
+emit('changeLabel', labelName);
 ```
 
 - `defineEmits`定义响应父组件的方法名，需要先定义才可通过 emit()响应
@@ -150,35 +150,38 @@ emit("changeLabel", labelName);
 
 ```typescript
 // useClickLikes.ts
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
+import { Toast } from 'vant';
+
 /**
  * 封装点赞逻辑
  * @requestApi api请求的path
  * @description 点赞文章、留言
  */
-function useClickLike(requestApi: Function) {
-  let currentId = ref(""); // 当前id
-  let isLike = ref(false); // 是否点赞
+const useClickLike = (requestApi: Function) => {
   let likeList = ref<string[]>([]); // 点过赞列表
 
+  // 点赞事件
   const handleLikes = (id: string) => {
-    if (likeList.value.includes(id)) {
-      isLike.value = true;
-      likeList.value.splice(likeList.value.indexOf(id), 1);
-    } else {
-      isLike.value = false;
-      likeList.value.push(id);
-    }
-    currentId.value = id;
-    return requestApi({ _id: id, isLike: isLike.value }).catch((err: any) => {
-      console.log(err);
-    });
+    return requestApi({ _id: id, isLike: likeList.value.includes(id) })
+      .then(() => {
+        likeList.value.includes(id)
+          ? likeList.value.splice(likeList.value.indexOf(id), 1)
+          : likeList.value.push(id);
+      })
+      .catch((err: any) => {
+        Toast('点赞失败');
+        console.log(err);
+      });
   };
 
   return {
+    getLikesNumber,
+    getLikesColor,
     handleLikes,
+    likeList,
   };
-}
+};
 
 export default useClickLike;
 ```
@@ -186,7 +189,7 @@ export default useClickLike;
 - 在 vue 文件中引用，先导入进来，再解构出所需要的函数逻辑
 
 ```typescript
-import useClickLike from "@/useMixin/useClickLike";
+import useClickLike from '@/useMixin/useClickLike';
 // 点赞逻辑
 const { handleLikes } = useClickLike(apiUpdateLikes);
 ```
@@ -205,7 +208,7 @@ import { computed, watch } from 'vue'
 // 获取点赞数
   const getLikesNumber = computed(
     () => (id: string, likes: number) =>
-      isLikeSuccess.value && likeList.value.includes(id) ? likes + 1 : likes
+      likeList.value.includes(id) ? likes + 1 : likes
   );
 // 监听参数
 watch(props.params, (newVal，oldVal) => {
@@ -220,22 +223,19 @@ watch(props.params, (newVal，oldVal) => {
 
 - computed 语法：id 和 likes 为 getLikesNumber 的形参
 - watch 语法：props.params 为监听对象，newVal 为监听到的最新值，oldVal 为旧值
-- 具体语法可参看官方文档：[https://v3.cn.vuejs.org/api/computed-watch-api.html#computed](https://v3.cn.vuejs.org/api/computed-watch-api.html#computed)
 
 #### 5. vuex 的使用
 
 ```typescript
-import { useStore } from "vuex";
+import { useStore } from 'vuex';
 
 const store = useStore();
 // 获取label模块actions下的getLabelList方法
-const getLabelList = () => store.dispatch("label/getLabelList");
+const getLabelList = () => store.dispatch('label/getLabelList');
 getLabelList(); // 直接执行方法
 // 获取label模块getters下的labelList属性
-const labelList = store.getters["label/labelList"];
+const labelList = store.getters['label/labelList'];
 ```
-
-- 其他具体用法请参考官方文档：[https://next.vuex.vuejs.org/zh/guide/modules.html](https://next.vuex.vuejs.org/zh/guide/modules.html)
 
 #### 6. vue-router 的使用
 
@@ -244,26 +244,26 @@ const labelList = store.getters["label/labelList"];
 - 导入路由文件需要用`import.meta.glob`，不能用直接用`import`导入，`import`在开发时没问题，但是在打包后的文件会识别不了路由文件
 
 ```typescript
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import Tabbar from "../components/tabbar";
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import Tabbar from '../components/tabbar';
 // 先识别所有的views/文件夹name/*.vue文件
 // 这里限制性很高，只有路径为/views/文件夹name/*.vue，的文件才能背识别
-const modules = import.meta.glob("../views/*/*.vue");
+const modules = import.meta.glob('../views/*/*.vue');
 const loadComponent = (component: string) =>
   modules[`../views/${component}.vue`];
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/home",
-    component: loadComponent("home/index"),
+    path: '/home',
+    component: loadComponent('home/index'),
     meta: {
-      title: "首页",
+      title: '首页',
     },
   },
-  ....
+  // ...
   {
-    path: "/:pathMatch(.*)*",
-    redirect: "/home",
+    path: '/:pathMatch(.*)*',
+    redirect: '/home',
   },
 ];
 
@@ -273,15 +273,14 @@ const router = createRouter({
 });
 
 export default router;
-
 ```
 
 - 获取路由携带的 query 参数
 
 ```typescript
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
 const route = useRouter();
-const id = route.currentRoute.value.query["id"];
+const id = route.currentRoute.value.query['id'];
 ```
 
 ## 后端服务
@@ -317,10 +316,10 @@ export default {
   auth,
   log,
   mongodb: {
-    username: "wall", // 数据库用户
+    username: 'wall', // 数据库用户
     pwd: 123456, // 数据库密码
-    address: "localhost:27017",
-    db: "wallBlog", // 数据库名
+    address: 'localhost:27017',
+    db: 'wallBlog', // 数据库名
   },
 };
 ```
@@ -351,6 +350,7 @@ yarn server // 开启后端接口，成功了便会提示数据库连接成功
 3. `components/noData.tsx`文件：引用静态图片时，需要用模块导入的形式导入进来，直接在 html 使用图片路径在打包时，不会自动解析该图片路径
 4. `styles/common/iphone_x.scss`文件：提供了适配 iPhonex 全面屏系列的底部间距
 5. `tsconfig.json`文件：strict：true 开启所有严格类型检查
+6. `icon`用的是阿里巴巴矢量图标库，采用`Symbol`的形式引入项目。先在图标库中以`Symbol`的方式生成一个在线链接，再通过`<script>`直接引入在`index.html`
 
 ## 参考文档
 

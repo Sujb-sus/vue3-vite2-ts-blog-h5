@@ -11,16 +11,13 @@ const useGetLabelColor = () => {
 
   const getLabelColor = computed(() => {
     return (labelName: string) => {
-      if (labelList && labelList.length) {
-        let labelIndex = 0;
-        labelList.forEach((item: { label: string }, index: number) => {
-          if (labelName === item.label) {
-            labelIndex = index;
-          }
-        });
+      if (labelList.length) {
+        let labelIndex = labelList.findIndex(
+          (item: { label: string }) => item.label === labelName
+        );
         return labelList[labelIndex].bgColor;
       }
-      return "";
+      return "rgba(70, 70, 70, 0.9)";
     };
   });
 

@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import LabelSelect from "./components/labelSelect.vue";
-import List from "@/views/home/components/list.vue";
-import { reactive, ref } from "vue";
-import SvgIcon from "@/components/svgIcon";
+import LabelSelect from './components/labelSelect.vue'
+import List from '@/views/home/components/list.vue'
+import { reactive, ref } from 'vue'
+import SvgIcon from '@/components/svgIcon'
 
 let params = reactive({
-  keyword: "",
-  sortBy: "",
-  type: "",
+  keyword: '',
+  sortBy: '',
+  type: '',
   isMobile: true,
-});
-let keyword = ref("");
-
-// 根据关键词搜索
-const onSearch = () => {
-  params.keyword = keyword.value;
-};
+})
+let keyword = ref('')
 </script>
 
 <template>
@@ -27,7 +22,7 @@ const onSearch = () => {
         :clearable="false"
         :show-action="!!keyword"
         placeholder="请输入搜索关键词"
-        @search="onSearch"
+        @search="() => (params.keyword = keyword)"
         @cancel="() => (params.keyword = '')"
       />
     </form>
@@ -56,9 +51,14 @@ const onSearch = () => {
 
 <style lang="scss" scoped>
 .app-container {
-  padding-bottom: 50px;
   .van-search {
     padding: 12px 16px 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 46px;
+    z-index: 99;
+    background-color: #fff;
     :deep(.van-search__content) {
       border-radius: 16px;
       input {
@@ -71,7 +71,12 @@ const onSearch = () => {
   }
   :deep(.van-tabs) {
     .van-tabs__wrap {
-      position: relative;
+      position: fixed;
+      top: 90px;
+      width: 100vw;
+      height: 44px;
+      z-index: 99;
+      background-color: #fff;
       &::after {
         @include borderZeroPointFive();
       }

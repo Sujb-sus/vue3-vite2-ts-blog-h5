@@ -4,7 +4,6 @@ import router from "./router";
 import store from "./store";
 import vant from "./plugins/vant";
 import "amfe-flexible";
-import "./utils/iconfont";
 
 const app = createApp(App);
 // 按需注入vant组件

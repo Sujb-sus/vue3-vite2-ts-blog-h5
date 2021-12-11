@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/myself",
         component: loadComponent("myself/index"),
         meta: {
-          title: "我的",
+          title: "关于我",
         },
       },
     ],

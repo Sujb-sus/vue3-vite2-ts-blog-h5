@@ -18,7 +18,7 @@ export default defineComponent({
             留言
           </van-tabbar-item>
           <van-tabbar-item replace to="/myself" icon="user-o">
-            我的
+            关于我
           </van-tabbar-item>
         </van-tabbar>
       </>

@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import SvgIcon from "@/components/svgIcon";
-import CommentItem from "./commentItem.vue";
-import { commentModel } from "@/models/index";
+import SvgIcon from '@/components/svgIcon'
+import CommentItem from './commentItem.vue'
+import { commentModel } from '@/models/index'
 
 interface Props {
-  commentList?: Array<commentModel>;
-  total?: number;
-  replyCount?: number;
+  commentList?: Array<commentModel>
+  total?: number
+  replyCount?: number
 }
 const props = withDefaults(defineProps<Props>(), {
   commentList: () => [],
   total: 0,
   replyCount: 0,
-});
-const emit = defineEmits(["replySuccess"]);
-
-const replySuccess = () => {
-  emit("replySuccess");
-};
+})
+const emit = defineEmits(['replySuccess'])
 </script>
 
 <template>
@@ -32,7 +28,7 @@ const replySuccess = () => {
       v-for="item in props.commentList"
       :key="item._id"
       :item="item"
-      @replySuccess="replySuccess"
+      @replySuccess="() => emit('replySuccess')"
     >
     </CommentItem>
   </div>

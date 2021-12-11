@@ -7,36 +7,26 @@ import { Toast } from "vant";
  * @description 点赞文章、留言
  */
 const useClickLike = (requestApi: Function) => {
-  let currentId = ref(""); // 当前id
-  let isLike = ref(false); // 是否点赞
-  let isLikeSuccess = ref(true); // 是否点赞成功
   let likeList = ref<string[]>([]); // 点过赞列表
 
   // 获取点赞数
   const getLikesNumber = computed(
     () => (id: string, likes: number) =>
-      isLikeSuccess.value && likeList.value.includes(id) ? likes + 1 : likes
+      likeList.value.includes(id) ? likes + 1 : likes
   );
   // 点赞高亮
   const getLikesColor = computed(
-    () => (id: string) => isLikeSuccess.value && likeList.value.includes(id)
+    () => (id: string) => likeList.value.includes(id)
   );
   // 点赞事件
   const handleLikes = (id: string) => {
-    if (likeList.value.includes(id)) {
-      isLike.value = true;
-      likeList.value.splice(likeList.value.indexOf(id), 1);
-    } else {
-      isLike.value = false;
-      likeList.value.push(id);
-    }
-    currentId.value = id;
-    return requestApi({ _id: id, isLike: isLike.value })
+    return requestApi({ _id: id, isLike: likeList.value.includes(id) })
       .then(() => {
-        isLikeSuccess.value = true;
+        likeList.value.includes(id)
+          ? likeList.value.splice(likeList.value.indexOf(id), 1)
+          : likeList.value.push(id);
       })
       .catch((err: any) => {
-        isLikeSuccess.value = false;
         Toast("点赞失败");
         console.log(err);
       });
@@ -46,6 +36,7 @@ const useClickLike = (requestApi: Function) => {
     getLikesNumber,
     getLikesColor,
     handleLikes,
+    likeList,
   };
 };
 

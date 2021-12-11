@@ -20,6 +20,10 @@
     width: 80vw;
   }
 }
+// 公共类
+.app-container {
+  padding-bottom: calc(50px + 16px);
+}
 // iPhone X系列底部加高
 @media #{$ipxMedia} {
   .app-container {

@@ -52,7 +52,6 @@
 
 <style lang="scss" scoped>
 .app-container {
-  padding-bottom: 50px;
   .my-bg {
     height: 150px;
     border-radius: 4px;

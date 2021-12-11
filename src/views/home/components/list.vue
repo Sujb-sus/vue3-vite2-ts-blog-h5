@@ -1,97 +1,104 @@
 
 <script setup lang="ts">
-import base from "@/utils/base";
-import NoData from "@/components/noData";
-import SvgIcon from "@/components/svgIcon";
-import { apiGetBlogList, apiUpdateLikes } from "@/api/blog";
-import { formatTime, formatNumber } from "@/filters/index";
-import useClickLike from "@/useMixin/useClickLike";
-import useGetLabelColor from "@/useMixin/useGetLabelColor";
-import { ref, watch } from "vue";
-import { useRouter } from "vue-router";
-import { articleModel } from "@/models/index";
+import base from '@/utils/base'
+import NoData from '@/components/noData'
+import SvgIcon from '@/components/svgIcon'
+import { apiGetBlogList, apiUpdateLikes } from '@/api/blog'
+import { formatTime, formatNumber } from '@/filters/index'
+import useClickLike from '@/useMixin/useClickLike'
+import useGetLabelColor from '@/useMixin/useGetLabelColor'
+import { ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { articleModel } from '@/models/index'
 
 interface Props {
-  showTitle?: boolean;
-  params?: object;
+  showTitle?: boolean
+  params?: object
 }
+// 定义props默认值
 const props = withDefaults(defineProps<Props>(), {
   showTitle: true,
   params: undefined,
-});
-const { getLikesNumber, getLikesColor, handleLikes } =
-  useClickLike(apiUpdateLikes);
-const { getLabelColor } = useGetLabelColor();
-const route = useRouter();
+})
+const { getLikesNumber, getLikesColor, handleLikes, likeList } =
+  useClickLike(apiUpdateLikes)
+const { getLabelColor } = useGetLabelColor()
+const route = useRouter()
 
-let loading = ref(false);
-let finished = ref(false);
-let refreshing = ref(false);
-let hasLoad = ref(false);
-let pageindex = ref(1);
-let pagesize = ref(10);
-let total = ref(0);
-let list = ref<Array<articleModel>>([]);
+let loading = ref(false)
+let finished = ref(false)
+let refreshing = ref(false)
+let hasLoad = ref(false)
+let pageindex = ref(1)
+let pagesize = ref(10)
+let total = ref(0)
+let list = ref<Array<articleModel>>([])
 
+// 监听label页传下来的参数
+if (props.params) {
+  watch(props.params, () => {
+    pageindex.value = 1
+    hasLoad.value = false
+    loading.value = false
+    finished.value = false
+    list.value = []
+    likeList.value = []
+    getBlogList()
+  })
+}
 // 获取文章列表
 const getBlogList = (reload = true) => {
-  if (reload) {
-    base.showLoading();
-  }
+  reload && base.showLoading()
   return apiGetBlogList({
     pageindex: pageindex.value,
     pagesize: pagesize.value,
     ...props.params,
   })
     .then((res) => {
-      list.value = list.value.concat(res?.data?.list);
-      total.value = res?.data?.total;
-      finished.value = pageindex.value * pagesize.value >= total.value;
+      list.value = [...list.value, ...res?.data?.list]
+      total.value = res?.data?.total
+      finished.value = pageindex.value * pagesize.value >= total.value
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      hasLoad.value = true;
-      loading.value = false;
-      refreshing.value = false;
-      if (reload) {
-        base.hideLoading();
-      }
-    });
-};
-getBlogList();
-// 监听参数
-if (props.params) {
-  watch(props.params, () => {
-    pageindex.value = 1;
-    hasLoad.value = false;
-    loading.value = false;
-    finished.value = false;
-    list.value = [];
-    getBlogList();
-  });
+      hasLoad.value = true
+      loading.value = false
+      refreshing.value = false
+      reload && base.hideLoading()
+    })
 }
+getBlogList()
+
 // 下拉刷新
-const onRefresh = () => {
-  pageindex.value = 1;
-  list.value = [];
-  getBlogList();
-};
+const handleRefresh = () => {
+  pageindex.value = 1
+  list.value = []
+  likeList.value = []
+  getBlogList()
+}
 // 滚动加载
-const onLoad = () => {
+const handleLoad = () => {
   if (!refreshing.value) {
-    pageindex.value++;
-    getBlogList(false);
+    pageindex.value++
+    getBlogList(false)
   }
-};
+}
 // 去详情页
 const gotoDetail = (id: string) => {
-  route.push({ path: "/article/detail", query: { id } });
-};
+  route.push({ path: '/article/detail', query: { id } })
+}
 </script>
 
 <template>
-  <div class="list-container" v-if="hasLoad">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh" v-if="total">
+  <div
+    :class="{ 'list-container': true, 'list-container__pt': !props.showTitle }"
+    v-if="hasLoad"
+  >
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="handleRefresh"
+      v-if="total"
+    >
       <div class="list-title" v-if="props.showTitle">
         <SvgIcon name="icon-label01"></SvgIcon>
         <span>最新文章({{ total }})</span>
@@ -100,8 +107,8 @@ const gotoDetail = (id: string) => {
         v-model:loading="loading"
         :finished="finished"
         :immediate-check="false"
-        finished-text="--我是有底线的--"
-        @load="onLoad"
+        :finished-text="total > 10 ? '--我是有底线的--' : ''"
+        @load="handleLoad"
       >
         <div
           class="list-item"
@@ -132,7 +139,7 @@ const gotoDetail = (id: string) => {
             <div class="footer-item">
               <SvgIcon name="icon-date02"></SvgIcon>
               <div class="footer-text">
-                {{ formatTime(item.releaseTime, "yyyy-MM-dd") }}
+                {{ formatTime(item.releaseTime, 'yyyy-MM-dd') }}
               </div>
             </div>
             <div class="footer-item">
@@ -158,8 +165,13 @@ const gotoDetail = (id: string) => {
 </template>
 
 <style lang="scss" scoped>
+.list-container__pt {
+  padding-top: 137px;
+}
 .list-container {
-  min-height: calc(100vh - 150px);
+  .van-pull-refresh {
+    min-height: calc(100vh - 137px);
+  }
   .list-title {
     padding: 12px 0 8px 16px;
     display: flex;
