@@ -10,7 +10,8 @@ let activeIndex = ref(-1)
 let labelName = ref('')
 
 // 选择label类别
-const handleLabel = (index: number, label: string) => {
+// index的类型有可能是 string | number | symbol，不能写 number，打包编译会报错
+const handleLabel = (index: any, label: string) => {
   labelName.value = activeIndex.value === index && labelName.value ? '' : label
   activeIndex.value = index
   emit('changeLabel', labelName)
