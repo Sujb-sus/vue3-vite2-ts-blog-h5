@@ -22,7 +22,7 @@ export default {
   mongodb: {
     username: "wall",
     pwd: 123456,
-    address: "localhost:27017",
+    address: "127.0.0.1:27017",
     db: "wallBlog",
   },
 };
